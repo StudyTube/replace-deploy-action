@@ -1,10 +1,6 @@
 name: 'replace-deploy-action'
 description: 'Github action to perform all string replace operations we use for deploying a front-end app'
 author: 'Studytube'
-inputs:
-  myInput:              # change this
-    description: 'input description here'
-    default: 'default value if applicable'
 runs:
   using: 'node12'
   main: 'lib/main.js'
