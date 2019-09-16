@@ -1,6 +1,6 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'replace-deploy-action'
+description: 'Github action to perform all string replace operations we use for deploying a front-end app'
+author: 'Studytube'
 inputs:
   myInput:              # change this
     description: 'input description here'
