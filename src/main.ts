@@ -14,9 +14,16 @@ async function run() {
     console.log(`Branch: ${branch}`);
     console.log('Tasks: \n' + JSON.stringify(tasks));
 
-    await Promise.all(
-      tasks.map(task => replace(task).then(console.log))
+    const promises = tasks.map(
+      task => replace(task)
+        .then(findings => findings
+          .filter(finding => finding.hasChanged)
+          .map(finding => finding.file)
+        )
+        .then(console.log)
     );
+
+    await Promise.all(promises);
 
   } catch (error) {
     core.setFailed(error.message);
