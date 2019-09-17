@@ -7,7 +7,7 @@
 
 # https://github.com/actions/toolkit/blob/master/docs/action-versioning.md
 
-git checkout -b releases/v1   # If this branch already exists, omit the -b flag
+git checkout releases/v1   # If this branch already exists, omit the -b flag
 npm run build
 rm -rf node_modules
 sed -i '' '/node_modules/d' .gitignore   # Bash command that removes node_modules from .gitignore
