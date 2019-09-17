@@ -1,15 +1,22 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
-import * as dateFormat from 'dateformat';
+import replace from 'replace-in-file';
+
+import { configFactory } from './config-factory';
 
 async function run() {
   try {
-    console.log('REV, BRANCH, DATE');
+    const revision = github.context.sha.slice(0, 6);
+    const branch = github.context.ref.replace('refs/heads/', '');
+    const tasks = configFactory(revision, branch);
 
-    console.log(github.context.sha.slice(0, 6));
-    console.log(github.context.ref.replace('refs/heads/', ''));
-    console.log(dateFormat(new Date(), 'yyyy-mm-'));
-    console.log(new Date());
+    console.log(`Working on revision: ${revision}`);
+    console.log(`Branch: ${branch}`);
+    console.log('Tasks: \n' + JSON.stringify(tasks));
+
+    await Promise.all(
+      tasks.map(task => replace(task).then(console.log))
+    );
 
   } catch (error) {
     core.setFailed(error.message);
