@@ -34,7 +34,7 @@ export function configFactory(revision, branch, cdnBaseUrl) {
     {
       files: htmlFiles,
       from: /"\/scripts/g,
-      to: scriptsUrl
+      to: '"' + scriptsUrl
     },
     {
       files: jsFiles,
@@ -49,12 +49,12 @@ export function configFactory(revision, branch, cdnBaseUrl) {
     {
       files: htmlFiles,
       from: /"\/assets/g,
-      to: assetsUrl
+      to: '"' + assetsUrl
     },
     {
       files: scssFiles,
       from: /\(\/assets/g,
-      to: assetsUrl
+      to: '(' + assetsUrl
     },
   ];
 
