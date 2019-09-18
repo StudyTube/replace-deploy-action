@@ -8,10 +8,12 @@ async function run() {
   try {
     const revision = github.context.sha.slice(0, 6);
     const branch = github.context.ref.replace('refs/heads/', '');
-    const tasks = configFactory(revision, branch);
+    const cdnBaseUrl = core.getInput('cdn-base-url');
+    const tasks = configFactory(revision, branch, cdnBaseUrl);
 
     console.log(`Working on revision: ${revision}`);
     console.log(`Branch: ${branch}`);
+    console.log('CDN base url:', cdnBaseUrl);
     console.log('Tasks: \n' + JSON.stringify(tasks));
 
     const promises = tasks.map(
