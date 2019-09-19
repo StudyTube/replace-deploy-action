@@ -1,14 +1,16 @@
 import dateFormat from 'dateformat';
+import { readdirSync, lstatSync } from 'fs';
 
 export function configFactory(revision, branch, cdnBaseUrl) {
   const date = new Date();
   const release = dateFormat(date, 'yyyy-mm-') + revision;
-  const baseFileMask = 'dist/**/*.';
+  const distPath = 'dist';
+  const baseFileMask = `${distPath}/**/*.`;
   const assetsUrl = `${cdnBaseUrl}/${revision}/assets`;
   const scriptsUrl = `${cdnBaseUrl}/${revision}/scripts`;
 
-  const [jsFiles, scssFiles, htmlFiles] =
-    ['js', 'scss', 'html'].map(extension => baseFileMask + extension);
+  const [jsFiles, cssFiles, scssFiles, htmlFiles] =
+    ['js', 'css', 'scss', 'html'].map(extension => baseFileMask + extension);
 
   const replacementTasks = [
     {
@@ -56,7 +58,21 @@ export function configFactory(revision, branch, cdnBaseUrl) {
       from: /\(\/assets/g,
       to: '(' + assetsUrl
     },
+    ...getFontUrlsReplaceConfig(distPath, cssFiles, cdnBaseUrl)
   ];
 
   return replacementTasks;
+}
+
+function getFontUrlsReplaceConfig(distPath, filesToReplace, cdnBaseUrl) {
+  const urlEndsToIgnore = ['.js', '.html', '.css', '.scss', 'favicon.ico'];
+
+  return readdirSync(distPath)
+    .filter(filename => lstatSync([distPath, filename].join('/')).isFile())
+    .filter(filename => !urlEndsToIgnore.some(endToIgnore => filename.endsWith(endToIgnore)))
+    .map(filename => ({
+      files: filesToReplace,
+      from: `url(${filename}`,
+      to: `url(${cdnBaseUrl}/${filename}`
+    }));
 }
