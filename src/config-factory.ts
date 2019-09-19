@@ -4,7 +4,7 @@ import { readdirSync, lstatSync } from 'fs';
 export function configFactory(revision, branch, cdnBaseUrl) {
   const date = new Date();
   const release = dateFormat(date, 'yyyy-mm-') + revision;
-  const distPath = 'dist';
+  const distPath = 'dist'
   const baseFileMask = `${distPath}/**/*.`;
   const assetsUrl = `${cdnBaseUrl}/${revision}/assets`;
   const scriptsUrl = `${cdnBaseUrl}/${revision}/scripts`;
@@ -40,12 +40,12 @@ export function configFactory(revision, branch, cdnBaseUrl) {
     },
     {
       files: jsFiles,
-      from: '{SCRIPTS_PATH_TO_REPLACE}',
+      from: /{SCRIPTS_PATH_TO_REPLACE}/g,
       to: scriptsUrl
     },
     {
       files: jsFiles,
-      from: '{ASSETS_PATH_TO_REPLACE}',
+      from: /{ASSETS_PATH_TO_REPLACE}/g,
       to: assetsUrl
     },
     {
@@ -72,7 +72,7 @@ function getFontUrlsReplaceConfig(distPath, filesToReplace, cdnBaseUrl) {
     .filter(filename => !urlEndsToIgnore.some(endToIgnore => filename.endsWith(endToIgnore)))
     .map(filename => ({
       files: filesToReplace,
-      from: `url(${filename}`,
+      from: new RegExp(`url\(${filename}`, 'g'),
       to: `url(${cdnBaseUrl}/${filename}`
     }));
 }

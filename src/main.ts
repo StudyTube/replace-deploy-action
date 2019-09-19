@@ -14,18 +14,17 @@ async function run() {
     console.log(`Working on revision: ${revision}`);
     console.log(`Branch: ${branch}`);
     console.log('CDN base url:', cdnBaseUrl);
-    console.log('Tasks: \n' + JSON.stringify(tasks));
 
-    const promises = tasks.map(
-      task => replace(task)
-        .then(findings => findings
+    const replaceResults = tasks
+      .map(
+        task => replace
+          .sync(task)
           .filter(finding => finding.hasChanged)
           .map(finding => finding.file)
-        )
-        .then(console.log)
     );
 
-    await Promise.all(promises);
+    console.log('File replacements:');
+    console.dir(replaceResults);
 
   } catch (error) {
     core.setFailed(error.message);
