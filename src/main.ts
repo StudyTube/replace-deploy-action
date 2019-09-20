@@ -1,12 +1,13 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 import replace from 'replace-in-file';
+import { execSync } from 'child_process';
 
 import { configFactory } from './config-factory';
 
 async function run() {
   try {
-    const revision = core.getInput('revision');
+    const revision = execSync('git rev-parse --short=6 HEAD').toString();
     const branch = github.context.ref.replace('refs/heads/', '');
     const cdnBaseUrl = core.getInput('cdn-base-url');
     const tasks = configFactory(revision, branch, cdnBaseUrl);
