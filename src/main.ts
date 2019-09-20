@@ -6,7 +6,7 @@ import { configFactory } from './config-factory';
 
 async function run() {
   try {
-    const revision = github.context.sha.slice(0, 6);
+    const revision = core.getInput('revision');
     const branch = github.context.ref.replace('refs/heads/', '');
     const cdnBaseUrl = core.getInput('cdn-base-url');
     const tasks = configFactory(revision, branch, cdnBaseUrl);

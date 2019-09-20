@@ -5,6 +5,9 @@ inputs:
   cdn-base-url:
     description: 'CDN base url to use in replacements'
     default: ''
+  revision:
+    description: 'Git rev-parse short'
+    default: $(git rev-parse --short=6 HEAD)
 runs:
   using: 'node12'
   main: 'lib/main.js'
