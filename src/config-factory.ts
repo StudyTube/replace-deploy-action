@@ -54,13 +54,13 @@ export function configFactory(revision, branch, cdnBaseDomain) {
       from: /\(\/assets/g,
       to: '(' + assetsUrl
     },
-    ...getFontUrlsReplaceConfig(distPath, cssFiles, cdnBaseDomain)
+    ...getFontUrlsReplaceConfig(distPath, cssFiles, deployDomainPath)
   ];
 
   return replacementTasks;
 }
 
-function getFontUrlsReplaceConfig(distPath, filesToReplace, cdnBaseUrl) {
+function getFontUrlsReplaceConfig(distPath, filesToReplace, deployDomainPath) {
   const urlEndsToIgnore = ['.js', '.html', '.css', '.scss', 'favicon.ico'];
 
   return readdirSync(distPath)
@@ -69,6 +69,6 @@ function getFontUrlsReplaceConfig(distPath, filesToReplace, cdnBaseUrl) {
     .map(filename => ({
       files: filesToReplace,
       from: new RegExp(`url\\(${filename}`, 'g'),
-      to: `url(${cdnBaseUrl}/${filename}`
+      to: `url(${deployDomainPath}/${filename}`
     }));
 }
