@@ -7,7 +7,7 @@ import { configFactory } from './config-factory';
 
 async function run() {
   try {
-    const revision = execSync('git rev-parse --short=6 HEAD').toString();
+    const revision = execSync('git rev-parse --short=6 HEAD').toString().trim();
     const branch = github.context.ref.replace('refs/heads/', '');
     const cdnBaseUrl = core.getInput('cdn-base-url');
     const tasks = configFactory(revision, branch, cdnBaseUrl);
