@@ -40,7 +40,7 @@ export function configFactory(revision, branch, cdnBaseDomain) {
       to: '"' + scriptsUrl
     },
     {
-      files: [jsFiles],
+      files: [jsFiles, htmlFiles, cssFiles, scssFiles],
       from: /{DEPLOY_DOMAIN_PATH_TO_REPLACE}/g,
       to: deployDomainPath
     },
