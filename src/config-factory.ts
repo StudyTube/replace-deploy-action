@@ -72,7 +72,7 @@ function getFontUrlsReplaceConfig(distPath, filesToReplace, cdnBaseUrl) {
     .filter(filename => !urlEndsToIgnore.some(endToIgnore => filename.endsWith(endToIgnore)))
     .map(filename => ({
       files: filesToReplace,
-      from: new RegExp(`url\(${filename}`, 'g'),
+      from: new RegExp(`url\\(${filename}`, 'g'),
       to: `url(${cdnBaseUrl}/${filename}`
     }));
 }

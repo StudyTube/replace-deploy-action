@@ -19,6 +19,6 @@ rm -rf node_modules
 sed -i.bak '/node_modules/d' .gitignore && rm .gitignore.bak
 
 npm install --production
-git add node_modules .gitignore
+git add node_modules .gitignore package-lock.json
 git commit -m node_modules
 git push origin releases/v1
