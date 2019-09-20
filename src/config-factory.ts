@@ -69,6 +69,6 @@ function getFontUrlsReplaceConfig(distPath, filesToReplace, deployDomainPath) {
     .map(filename => ({
       files: filesToReplace,
       from: new RegExp(`url\\(${filename}`, 'g'),
-      to: `url(${deployDomainPath}/${filename}`
+      to: `url(https://${deployDomainPath}/${filename}`
     }));
 }
