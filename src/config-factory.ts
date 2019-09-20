@@ -1,13 +1,14 @@
 import dateFormat from 'dateformat';
 import { readdirSync, lstatSync } from 'fs';
 
-export function configFactory(revision, branch, cdnBaseUrl) {
+export function configFactory(revision, branch, cdnBaseDomain) {
   const date = new Date();
   const release = dateFormat(date, 'yyyy-mm-') + revision;
   const distPath = 'dist'
   const baseFileMask = `${distPath}/**/*.`;
-  const assetsUrl = `${cdnBaseUrl}/${revision}/assets`;
-  const scriptsUrl = `${cdnBaseUrl}/${revision}/scripts`;
+  const deployDomainPath = `${cdnBaseDomain}/${revision}`
+  const assetsUrl = `https://${deployDomainPath}/assets`;
+  const scriptsUrl = `https://${deployDomainPath}/scripts`;
 
   const [jsFiles, cssFiles, scssFiles, htmlFiles] =
     ['js', 'css', 'scss', 'html'].map(extension => baseFileMask + extension);
@@ -39,14 +40,9 @@ export function configFactory(revision, branch, cdnBaseUrl) {
       to: '"' + scriptsUrl
     },
     {
-      files: jsFiles,
-      from: /{SCRIPTS_PATH_TO_REPLACE}/g,
-      to: scriptsUrl
-    },
-    {
-      files: jsFiles,
-      from: /{ASSETS_PATH_TO_REPLACE}/g,
-      to: assetsUrl
+      files: [jsFiles],
+      from: /{DEPLOY_DOMAIN_PATH_TO_REPLACE}/g,
+      to: deployDomainPath
     },
     {
       files: htmlFiles,
@@ -58,7 +54,7 @@ export function configFactory(revision, branch, cdnBaseUrl) {
       from: /\(\/assets/g,
       to: '(' + assetsUrl
     },
-    ...getFontUrlsReplaceConfig(distPath, cssFiles, cdnBaseUrl)
+    ...getFontUrlsReplaceConfig(distPath, cssFiles, cdnBaseDomain)
   ];
 
   return replacementTasks;

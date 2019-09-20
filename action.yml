@@ -2,8 +2,8 @@ name: 'replace-deploy-action'
 description: 'Github action to perform all string replace operations we use for deploying a front-end app'
 author: 'Studytube'
 inputs:
-  cdn-base-url:
-    description: 'CDN base url to use in replacements'
+  cdn-base-domain:
+    description: 'CDN base domain to use in replacements'
     default: ''
 runs:
   using: 'node12'
