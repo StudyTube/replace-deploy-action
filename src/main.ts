@@ -3,7 +3,7 @@ import * as github from '@actions/github';
 import replace from 'replace-in-file';
 import { execSync } from 'child_process';
 
-import { configFactory } from './config-factory';
+import { configFactory } from './utils/config-factory';
 
 async function run() {
   try {

@@ -5,8 +5,9 @@
   "description": "Github action to perform all string replace operations we use for FE deployment",
   "main": "lib/main.js",
   "scripts": {
-    "build": "tsc",
-    "test": "jest"
+    "build": "rm -rf lib && tsc",
+    "test": "jest",
+    "publish": "./publish.sh && ./publish-tag.sh"
   },
   "repository": {
     "type": "git",
