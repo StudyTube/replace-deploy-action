@@ -1,14 +1,12 @@
 import dateFormat from 'dateformat';
 
-import { getCdnReplaceConfig } from './config-cdn-replaces';
-
-export function configFactory(revision, branch, cdnBaseDomain) {
+export function configFactory(revision, branch) {
   const date = new Date();
   const release = dateFormat(date, 'yyyy-mm-') + revision;
   const distPath = 'dist'
   const jsFiles = `${distPath}/**/*.js`;
 
-  let replacementTasks = [
+  return [
     {
       files: jsFiles,
       from: /{REVISION}/g,
@@ -30,15 +28,4 @@ export function configFactory(revision, branch, cdnBaseDomain) {
       to: date
     }
   ];
-
-  if (cdnBaseDomain) {
-    console.log('Will do CDN related replacements');
-
-    replacementTasks = [
-      ...replacementTasks,
-      ...getCdnReplaceConfig(revision, cdnBaseDomain)
-    ];
-  }
-
-  return replacementTasks;
 }
